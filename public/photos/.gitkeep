@@ -1,0 +1,2 @@
+# Place your real photos in this folder (e.g., trip1.jpg, wedding.jpg)
+# Then reference them in src/config/birthdayConfig.ts as './photos/trip1.jpg'

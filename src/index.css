@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #040812;
+    font-family: var(--font-sans);
+    color: #f5e6c8;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-sans-ui {
+  font-family: var(--font-sans);
+}
+
+@keyframes gentleBob {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-4px);
+  }
+}
+
+@keyframes hotspotRipple {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.72;
+  }
+  70% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+@keyframes cloudGlide {
+  0%,
+  100% {
+    transform: translate3d(-1.5%, 0, 0);
+    opacity: 0.38;
+  }
+  50% {
+    transform: translate3d(1.5%, -0.5%, 0);
+    opacity: 0.56;
+  }
+}
+
+.animate-gentle-bob {
+  animation: gentleBob 4.8s ease-in-out infinite;
+}
+
+.animate-hotspot-ripple {
+  animation: hotspotRipple 3.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.animate-cloud-glide {
+  animation: cloudGlide 22s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-gentle-bob,
+  .animate-hotspot-ripple,
+  .animate-cloud-glide {
+    animation: none !important;
+  }
+}
