@@ -8,9 +8,8 @@
  *
  * HOW TO ADD YOUR OWN PHOTOS LATER:
  *   Option A (Recommended for GitHub Pages):
- *     1. Create a folder: `public/photos/`
- *     2. Drop your photos there (e.g. `public/photos/our-wedding.jpg`)
- *     3. Change `photoUrl` below to `'./photos/our-wedding.jpg'`
+ *     1. Put your photos inside `public/photos/` (e.g. `public/photos/our-trip.jpg`)
+ *     2. Change `photoUrl` below to `'./photos/our-trip.jpg'`
  *
  *   Option B (Direct Import):
  *     1. Place your image inside `src/assets/images/`
@@ -20,6 +19,7 @@
  */
 
 import seascapeBackdrop from '../assets/images/seascape_night_backdrop_1794999026980.jpg';
+import seascapeMobileBackdrop from '../assets/images/seascape_mobile_portrait_1795003117994.jpg';
 import dummyBottlePhoto from '../assets/images/memory_bottle_letter_1794999030753.jpg';
 import dummyCloudsPhoto from '../assets/images/memory_clouds_dawn_1794999028425.jpg';
 import dummyDolphinPhoto from '../assets/images/memory_dolphin_sea_1794999029340.jpg';
@@ -40,6 +40,8 @@ export interface MemoryItem {
   readonly id: MemoryId;
   /** Short name shown on hover and in the voyage index. */
   readonly elementLabel: string;
+  /** 1-word concise label shown in the iPhone bottom memory bar. */
+  readonly shortLabel: string;
   /** Heartfelt memory headline shown inside the popup card. */
   readonly title: string;
   /** Clean metadata line shown above the title (e.g., date, port, or voyage note). */
@@ -52,8 +54,13 @@ export interface MemoryItem {
   readonly message: string;
   /** Optional sign-off line below the message. */
   readonly signOff: string;
-  /** Position on the 16:9 seascape backdrop (percentage from top-left). */
+  /** Position on the 16:9 desktop seascape backdrop (percentage from top-left). */
   readonly hotspot: {
+    readonly xPercent: number;
+    readonly yPercent: number;
+  };
+  /** Position on the 9:16 portrait mobile seascape backdrop (percentage from top-left). */
+  readonly mobileHotspot: {
     readonly xPercent: number;
     readonly yPercent: number;
   };
@@ -64,12 +71,13 @@ export interface BirthdaySiteConfig {
   readonly arrivalPrompt: string;
   readonly arrivalButtonLabel: string;
   readonly backgroundImageUrl: string;
+  readonly mobileBackgroundImageUrl: string;
   readonly audio: {
     /** Softness of the music-box "Happy Birthday" melody (0.0 to 1.0). */
     readonly musicBoxVolume: number;
     /** Softness of the ambient ocean waves (0.0 to 1.0). */
     readonly oceanWavesVolume: number;
-    /** Tempo in beats per minute for the music box melody (default 84 = calm). */
+    /** Tempo in beats per minute for the music box melody (default 82 = calm). */
     readonly tempoBpm: number;
     /**
      * Optional custom MP3/M4A file path (e.g., './audio/our-song.mp3').
@@ -90,11 +98,13 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
   mainGreeting: 'Happy Birthday, Pati ji',
 
   /** Short invitation shown on the opening curtain before clicking to start audio. */
-  arrivalPrompt: 'Tap the moonlit ocean and stars to uncover six hidden memories waiting for you tonight.',
+  arrivalPrompt:
+    'Tap the moonlit ocean and stars to uncover six hidden memories waiting for you tonight.',
   arrivalButtonLabel: 'Open Your Birthday Voyage',
 
-  /** Full-bleed realistic night sky & ocean photograph. */
+  /** Full-bleed realistic night sky & ocean photographs (desktop 16:9 & mobile 9:16). */
   backgroundImageUrl: seascapeBackdrop,
+  mobileBackgroundImageUrl: seascapeMobileBackdrop,
 
   /** Audio settings for the built-in Music Box + Ocean Waves synthesizer. */
   audio: {
@@ -120,6 +130,7 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
     {
       id: 'moon',
       elementLabel: 'Glowing Full Moon',
+      shortLabel: 'Moon',
       title: 'Under the Same Full Moon',
       dateOrLocation: 'Memory 01 · Open Waters',
       photoUrl: dummyMoonPhoto,
@@ -131,10 +142,15 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
         xPercent: 35.5,
         yPercent: 40.5,
       },
+      mobileHotspot: {
+        xPercent: 32.0,
+        yPercent: 23.0,
+      },
     },
     {
       id: 'north-star',
       elementLabel: 'Brightest North Star',
+      shortLabel: 'Star',
       title: 'My Guiding Light Home',
       dateOrLocation: 'Memory 02 · Quiet Stargazing',
       photoUrl: dummyStarPhoto,
@@ -146,10 +162,15 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
         xPercent: 78.7,
         yPercent: 20.5,
       },
+      mobileHotspot: {
+        xPercent: 79.8,
+        yPercent: 13.5,
+      },
     },
     {
       id: 'clouds',
       elementLabel: 'Drifting Night Clouds',
+      shortLabel: 'Clouds',
       title: 'Calm After Every Storm',
       dateOrLocation: 'Memory 03 · Peaceful Harbor Dawn',
       photoUrl: dummyCloudsPhoto,
@@ -161,10 +182,15 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
         xPercent: 49.0,
         yPercent: 42.5,
       },
+      mobileHotspot: {
+        xPercent: 63.0,
+        yPercent: 29.5,
+      },
     },
     {
       id: 'ship',
       elementLabel: 'Sailing Ship Silhouette',
+      shortLabel: 'Ship',
       title: 'Heart of the Engine Room',
       dateOrLocation: 'Memory 04 · Across the Horizon',
       photoUrl: dummyShipPhoto,
@@ -176,10 +202,15 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
         xPercent: 86.2,
         yPercent: 53.5,
       },
+      mobileHotspot: {
+        xPercent: 78.0,
+        yPercent: 45.5,
+      },
     },
     {
       id: 'dolphin',
       elementLabel: 'Leaping Dolphin',
+      shortLabel: 'Dolphin',
       title: 'Joy Riding Alongside You',
       dateOrLocation: 'Memory 05 · Sunlit Wake',
       photoUrl: dummyDolphinPhoto,
@@ -191,10 +222,15 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
         xPercent: 64.0,
         yPercent: 66.5,
       },
+      mobileHotspot: {
+        xPercent: 29.0,
+        yPercent: 59.5,
+      },
     },
     {
       id: 'bottle',
       elementLabel: 'Message in a Bottle',
+      shortLabel: 'Bottle',
       title: 'A Birthday Wish Cast to Sea',
       dateOrLocation: 'Memory 06 · Shore to Ship',
       photoUrl: dummyBottlePhoto,
@@ -205,6 +241,10 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       hotspot: {
         xPercent: 30.2,
         yPercent: 78.2,
+      },
+      mobileHotspot: {
+        xPercent: 73.5,
+        yPercent: 76.5,
       },
     },
   ],

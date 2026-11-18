@@ -7,7 +7,29 @@ import { SeascapeCanvas } from './components/SeascapeCanvas';
 import { VoyageHud } from './components/VoyageHud';
 import { BIRTHDAY_CONFIG, type MemoryId, type MemoryItem } from './config/birthdayConfig';
 
+function useIsMobilePortrait(): boolean {
+  const [isMobilePortrait, setIsMobilePortrait] = useState(() => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+    return window.matchMedia('(max-width: 767px) and (orientation: portrait)').matches;
+  });
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px) and (orientation: portrait)');
+    const handleChange = () => setIsMobilePortrait(mediaQuery.matches);
+
+    handleChange();
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  return isMobilePortrait;
+}
+
 export default function App() {
+  const isMobilePortrait = useIsMobilePortrait();
+
   const [hasEnteredVoyage, setHasEnteredVoyage] = useState(false);
   const [discoveredIds, setDiscoveredIds] = useState<MemoryId[]>([]);
   const [activeMemoryId, setActiveMemoryId] = useState<MemoryId | null>(null);
@@ -30,6 +52,11 @@ export default function App() {
       audioEngineRef.current = null;
     };
   }, []);
+
+  // Reset backdrop fallback state when switching between mobile/desktop orientation
+  useEffect(() => {
+    setBackdropError(false);
+  }, [isMobilePortrait]);
 
   const handleEnterVoyage = useCallback(async () => {
     setHasEnteredVoyage(true);
@@ -91,8 +118,7 @@ export default function App() {
     const prevIdx =
       (activeIndex - 1 + BIRTHDAY_CONFIG.memories.length) %
       BIRTHDAY_CONFIG.memories.length;
-    const prevMem = BIRTHDAY_CONFIG.memories[prevIdx];
-    handleSelectMemory(prevMem);
+    handleSelectMemory(BIRTHDAY_CONFIG.memories[prevIdx]);
   }, [activeIndex, handleSelectMemory]);
 
   const handleNextMemory = useCallback(() => {
@@ -100,8 +126,7 @@ export default function App() {
       return;
     }
     const nextIdx = (activeIndex + 1) % BIRTHDAY_CONFIG.memories.length;
-    const nextMem = BIRTHDAY_CONFIG.memories[nextIdx];
-    handleSelectMemory(nextMem);
+    handleSelectMemory(BIRTHDAY_CONFIG.memories[nextIdx]);
   }, [activeIndex, handleSelectMemory]);
 
   // Keyboard shortcuts: Escape closes modals, Left/Right arrows cycle memories
@@ -133,19 +158,28 @@ export default function App() {
     handleNextMemory,
   ]);
 
+  const backdropSrc = isMobilePortrait
+    ? BIRTHDAY_CONFIG.mobileBackgroundImageUrl
+    : BIRTHDAY_CONFIG.backgroundImageUrl;
+
   return (
     <main className="relative flex h-[100dvh] w-full items-center justify-center overflow-hidden bg-[#040812] select-none">
       {/*
-        Aspect-locked 16:9 stage:
-        - On landscape desktop screens, scales proportionally to cover the viewport
-          while keeping all 6 hotspots visible inside the frame.
-        - On portrait mobile screens, scales cleanly to viewport width so none
-          of the 6 coastal/celestial hotspots get cropped off-screen.
+        Aspect-locked stage:
+        - Portrait mobile (< 768px portrait): uses dedicated 9:16 night seascape filling 100dvh edge-to-edge.
+        - Laptop / landscape: uses 16:9 widescreen ocean panorama.
+        Because image, canvas, and hotspots share the exact stage box, every halo stays aligned to its element.
       */}
-      <div className="relative aspect-video w-full shrink-0 md:w-[max(100vw,177.78vh)]">
+      <div
+        className={
+          isMobilePortrait
+            ? 'relative aspect-[9/16] h-[100dvh] shrink-0'
+            : 'relative aspect-video w-[max(100vw,177.78vh)] shrink-0'
+        }
+      >
         {!backdropError ? (
           <img
-            src={BIRTHDAY_CONFIG.backgroundImageUrl}
+            src={backdropSrc}
             alt="Moonlit night sky with clouds, North Star, sailing ship, leaping dolphin, and message in a bottle on calm ocean waves"
             referrerPolicy="no-referrer"
             onError={() => setBackdropError(true)}
@@ -158,20 +192,20 @@ export default function App() {
         {/* Subtle drifting moonlight mist near clouds */}
         <div
           aria-hidden="true"
-          className="animate-cloud-glide pointer-events-none absolute inset-x-[12%] top-[28%] h-[22%] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(226,232,240,0.14)_0%,transparent_70%)] blur-2xl"
+          className="animate-cloud-glide pointer-events-none absolute inset-x-[12%] top-[24%] h-[20%] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(226,232,240,0.14)_0%,transparent_70%)] blur-2xl"
         />
 
         {/* Animated twinkling sky stars & shimmering water reflection */}
         <SeascapeCanvas />
 
-        {/* Subtle top & bottom gradient scrims for crisp text legibility */}
+        {/* Subtle top & bottom gradient scrims for crisp HUD legibility */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#040812]/80 to-transparent"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#040812]/85 to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#040812]/90 to-transparent"
         />
 
         {/* 6 Interactive Seascape Hotspots */}
@@ -180,6 +214,7 @@ export default function App() {
             <HotspotMarker
               key={memory.id}
               memory={memory}
+              isMobilePortrait={isMobilePortrait}
               isDiscovered={discoveredIds.includes(memory.id)}
               isActive={activeMemoryId === memory.id}
               onSelect={handleSelectMemory}
@@ -187,12 +222,13 @@ export default function App() {
           ))}
       </div>
 
-      {/* Top HUD, Memories Index & Finale Celebration */}
+      {/* Responsive Top HUD, Mobile Bottom Thumb Bar & Finale Celebration */}
       {hasEnteredVoyage && (
         <VoyageHud
           greeting={BIRTHDAY_CONFIG.mainGreeting}
           memories={BIRTHDAY_CONFIG.memories}
           discoveredIds={discoveredIds}
+          activeMemoryId={activeMemoryId}
           isMuted={isMuted}
           isPlaying={isPlaying}
           isIndexOpen={isIndexOpen}
