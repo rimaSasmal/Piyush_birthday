@@ -176,6 +176,7 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       title: 'Through Every Weather',
       dateOrLocation: 'Memory 03 · Peaceful Harbor Dawn',
       photoUrl: dummyCloudsPhoto,
+      photoPosition: 'center',
       photoAlt: 'Soft pastel dawn clouds reflecting over a calm coastal harbor',
       message:
         'Just like how quickly clouds gather and clear waise hi humari nok-jhok, chhoti-badi fights aur phir ek dusre ko manana. Kabhi itne sweet, toh kabhi itne stubborn \n\nBut at the end of the day you are always my favourite person my chotu bacha.',
@@ -196,6 +197,7 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       title: 'My Hardworking Sailor',
       dateOrLocation: 'Memory 04 · Across the Horizon',
       photoUrl: dummyShipPhoto,
+      photoPosition: 'center',
       photoAlt: 'View from a vessel bow sailing toward a glowing twilight horizon',
       message:
         'Everyone sees the ship crossing the ocean, yet few see the grit and skill deep below deck keeping everything running smoothly.\n\nI am endlessly proud of the dedication you bring to your work every day—and even prouder to call you mine.',
@@ -237,6 +239,7 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       title: 'A Birthday Wish Cast to Sea',
       dateOrLocation: 'Memory 06 · Shore to Ship',
       photoUrl: dummyBottlePhoto,
+      photoPosition: 'center',
       photoAlt: 'Vintage glass bottle with rolled handwritten parchment on moonlit sand',
       message:
         'If I could send one wish across the ocean tonight, it would be :that this birthday brings you as much happiness, support, and love as you give me every single day.\n\nHappy Birthday, Pati ji!',
