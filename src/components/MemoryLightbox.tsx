@@ -34,6 +34,13 @@ export function MemoryLightbox({
     .map((p) => p.trim())
     .filter(Boolean);
 
+  const objectPositionClass =
+    memory.photoPosition === 'bottom'
+      ? 'object-bottom'
+      : memory.photoPosition === 'center'
+        ? 'object-center'
+        : 'object-top';
+
   return (
     <div
       role="dialog"
@@ -44,7 +51,7 @@ export function MemoryLightbox({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative flex max-h-[88dvh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-[#F5E6C8]/15 bg-[#091326]/95 shadow-[0_24px_80px_rgba(0,0,0,0.75)] backdrop-blur-xl md:flex-row"
+        className="relative flex max-h-[88dvh] w-full max-w-4xl flex-col overflow-y-auto rounded-2xl border border-[#F5E6C8]/15 bg-[#091326]/95 shadow-[0_24px_80px_rgba(0,0,0,0.75)] backdrop-blur-xl md:flex-row md:overflow-hidden"
       >
         {/* Top-right high-contrast close button (44px mobile touch target) */}
         <button
@@ -56,15 +63,15 @@ export function MemoryLightbox({
           <X className="h-4 w-4" />
         </button>
 
-        {/* Photo Frame with Zero-Broken-Image fallback */}
-        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-[#060E1F] sm:aspect-[4/3] md:w-[52%] md:aspect-auto md:min-h-[420px]">
+        {/* Photo Frame with top-anchored framing & Zero-Broken-Image fallback */}
+        <div className="relative aspect-[4/3] max-h-[46dvh] w-full shrink-0 overflow-hidden bg-[#060E1F] md:max-h-none md:w-[52%] md:aspect-auto md:min-h-[420px]">
           {!imageError ? (
             <img
               src={memory.photoUrl}
               alt={memory.photoAlt}
               referrerPolicy="no-referrer"
               onError={() => setImageError(true)}
-              className="h-full w-full object-cover"
+              className={`h-full w-full object-cover ${objectPositionClass}`}
             />
           ) : (
             <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-[#0A1730] via-[#071022] to-[#040812] p-6 text-center">
@@ -84,7 +91,7 @@ export function MemoryLightbox({
         </div>
 
         {/* Scrollable Letter Content */}
-        <div className="flex flex-1 flex-col justify-between overflow-y-auto p-5 sm:p-8">
+        <div className="flex flex-1 flex-col justify-between p-5 sm:p-8 md:overflow-y-auto">
           <div>
             {/* Unboxed metadata line (zero pills) */}
             <div className="flex flex-wrap items-center gap-2 pr-10 text-xs tracking-wide text-[#F5E6C8]/65 tabular-nums">

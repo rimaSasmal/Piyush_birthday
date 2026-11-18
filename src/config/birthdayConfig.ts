@@ -48,6 +48,8 @@ export interface MemoryItem {
   readonly dateOrLocation: string;
   /** Path or imported photo asset. Supports '../assets/images/...' or external HTTPS URLs. */
   readonly photoUrl: string;
+  /** Optional vertical crop alignment ('top' keeps faces/upper part visible). Defaults to 'top'. */
+  readonly photoPosition?: 'top' | 'center' | 'bottom';
   /** Accessible image description for screen readers / fallback state. */
   readonly photoAlt: string;
   /** Multi-line birthday message or memory letter. Use '\n\n' for paragraphs. */
@@ -214,6 +216,7 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       title: 'Joy Riding Alongside You',
       dateOrLocation: 'Memory 05 · Sunlit Wake',
       photoUrl: dummyDolphinPhoto,
+      photoPosition: 'top',
       photoAlt: 'Wild dolphin gliding beside shimmering blue ocean waves',
       message:
         'Just like waves playfully chase each other across the ocean, some of life-s best moments happen without any plans.\n\n sabse badiya time of our life will always be those small nameless ,uncaptured ,playful moments we spend laughing with each other .',
