@@ -2,5 +2,7 @@
   "name": "Happy Birthday, Pati ji",
   "description": "An interactive moonlit night seascape birthday voyage with six hidden memories and a soft music-box ocean soundscape.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
