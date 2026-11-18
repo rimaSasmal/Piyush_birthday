@@ -9,7 +9,7 @@
  * HOW TO ADD YOUR OWN PHOTOS LATER:
  *   Option A (Recommended for GitHub Pages):
  *     1. Put your photos inside `public/photos/` (e.g. `public/photos/our-trip.jpg`)
- *     2. Change `photoUrl` below to `'./photos/our-trip.jpg'`
+ *     2. Change `photoUrl` below to `'../assets/images/our-trip.jpg'`
  *
  *   Option B (Direct Import):
  *     1. Place your image inside `src/assets/images/`
@@ -20,12 +20,12 @@
 
 import seascapeBackdrop from '../assets/images/seascape_night_backdrop_1794999026980.jpg';
 import seascapeMobileBackdrop from '../assets/images/seascape_mobile_portrait_1795003117994.jpg';
-import dummyBottlePhoto from '../assets/images/memory_bottle_letter_1794999030753.jpg';
-import dummyCloudsPhoto from '../assets/images/memory_clouds_dawn_1794999028425.jpg';
-import dummyDolphinPhoto from '../assets/images/memory_dolphin_sea_1794999029340.jpg';
-import dummyMoonPhoto from '../assets/images/memory_moon_couple_1794999028153.jpg';
-import dummyShipPhoto from '../assets/images/memory_ship_horizon_1794999029510.jpg';
-import dummyStarPhoto from '../assets/images/memory_north_star_night_1794999028694.jpg';
+import dummyBottlePhoto from '../assets/images/Bottle.jpg';
+import dummyCloudsPhoto from '../assets/images/cloud.jpg';
+import dummyDolphinPhoto from '../assets/images/Dolphin.jpg';
+import dummyMoonPhoto from '../assets/images/Moon.jpg';
+import dummyShipPhoto from '../assets/images/Ship.jpeg';
+import dummyStarPhoto from '../assets/images/star.jpg';
 
 export type MemoryId =
   | 'moon'
@@ -46,7 +46,7 @@ export interface MemoryItem {
   readonly title: string;
   /** Clean metadata line shown above the title (e.g., date, port, or voyage note). */
   readonly dateOrLocation: string;
-  /** Path or imported photo asset. Supports './photos/...' or external HTTPS URLs. */
+  /** Path or imported photo asset. Supports '../assets/images/...' or external HTTPS URLs. */
   readonly photoUrl: string;
   /** Accessible image description for screen readers / fallback state. */
   readonly photoAlt: string;
@@ -95,12 +95,12 @@ export interface BirthdaySiteConfig {
 
 export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
   /** Main title shown in the top-left header and on the opening curtain. */
-  mainGreeting: 'Happy Birthday, Pati ji',
+  mainGreeting: 'Happy Birthday, Pati ji :)',
 
   /** Short invitation shown on the opening curtain before clicking to start audio. */
   arrivalPrompt:
-    'Tap the moonlit ocean and stars to uncover six hidden memories waiting for you tonight.',
-  arrivalButtonLabel: 'Open Your Birthday Voyage',
+    'Engine room se break lo, Mr. 2nd Engineer! Tumhare liye kuch special hai chotu',
+  arrivalButtonLabel: 'Okay, Lets Go',
 
   /** Full-bleed realistic night sky & ocean photographs (desktop 16:9 & mobile 9:16). */
   backgroundImageUrl: seascapeBackdrop,
@@ -116,9 +116,9 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
 
   /** Special closing toast unlocked once all 6 memories have been discovered. */
   finale: {
-    title: 'All Six Memories Discovered',
+    title: 'Bas, Saare Surprises Khatam! ❤️',
     message:
-      'No matter how many nautical miles stretch between the ship and shore, my heart sails right beside you every single watch. Wishing you calm seas, safe harbors, and the happiest birthday ahead.',
+      'Ships may take you places, but you always have a home to come back to. I hope this little surprise reminded you how loved you are. Missing you a thoda jydaa extra today :( Happy Birthday!',
     signOff: 'Always yours, waiting on shore',
   },
 
@@ -136,8 +136,8 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       photoUrl: dummyMoonPhoto,
       photoAlt: 'Couple smiling together on a wooden sailboat deck at sunset',
       message:
-        'Whenever you are miles away at sea, I look up at the full moon and remember we are looking at the exact same sky.\n\nThank you for working so hard, staying strong through long contracts, and still filling every call with warmth and laughter.',
-      signOff: 'With all my love',
+        'Jab bhi tum samundar mein door hote ho, Kabhi kabhi mann karta hai ki tum paas hote, toh chhoti-chhoti baatein bhi saath mein share kar paate.\n\nI know ghar se itne mahine door rehna easy nahi hota, and I am really proud of how hard you work. Bas apna khayal rakha karo. Yahan koi hai jo tumhe bahut miss karta hai aur tumhare jaldi ghar aane ka wait karta hai. ❤️',
+      signOff: 'Tumhari favourite troublemaker',
       hotspot: {
         xPercent: 35.5,
         yPercent: 40.5,
@@ -156,8 +156,8 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       photoUrl: dummyStarPhoto,
       photoAlt: 'Two warm mugs on a wooden seaside terrace under a starry night sky',
       message:
-        'Long before GPS, sailors trusted the North Star to guide them safely home. For me, you have always been that steady light—calm in rough weather, patient, and endlessly dependable.\n\nHere is to many more quiet nights together with warm tea and zero alarms.',
-      signOff: 'Forever grateful for you',
+        'Suna hai long before GPS, sailors trusted the North Star to guide them safely home. Life mein kitni bhi ups and downs aayein, We can always count on each other.\n\nHere is to many more random baatein, silly jokes, chhoti-badi fights and zero alarms.',
+      signOff: 'So glad I have you',
       hotspot: {
         xPercent: 78.7,
         yPercent: 20.5,
@@ -171,13 +171,13 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       id: 'clouds',
       elementLabel: 'Drifting Night Clouds',
       shortLabel: 'Clouds',
-      title: 'Calm After Every Storm',
+      title: 'Through Every Weather',
       dateOrLocation: 'Memory 03 · Peaceful Harbor Dawn',
       photoUrl: dummyCloudsPhoto,
       photoAlt: 'Soft pastel dawn clouds reflecting over a calm coastal harbor',
       message:
-        'Life at sea teaches you how quickly clouds gather and clear—and your calm spirit always turns even the hardest days gentle for us.\n\nMay this new year bring you smooth passages, rested mornings, and skies painted in peaceful colors.',
-      signOff: 'Counting down until port',
+        'Just like how quickly clouds gather and clear waise hi humari nok-jhok, chhoti-badi fights aur phir ek dusre ko manana. Kabhi itne sweet, toh kabhi itne stubborn \n\nBut at the end of the day you are always my favourite person my chotu bacha.',
+      signOff: 'Saving all my hugs for you ❤️',
       hotspot: {
         xPercent: 49.0,
         yPercent: 42.5,
@@ -191,13 +191,13 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       id: 'ship',
       elementLabel: 'Sailing Ship Silhouette',
       shortLabel: 'Ship',
-      title: 'Heart of the Engine Room',
+      title: 'My Hardworking Sailor',
       dateOrLocation: 'Memory 04 · Across the Horizon',
       photoUrl: dummyShipPhoto,
       photoAlt: 'View from a vessel bow sailing toward a glowing twilight horizon',
       message:
         'Everyone sees the ship crossing the ocean, yet few see the grit and skill deep below deck keeping everything running smoothly.\n\nI am endlessly proud of the dedication you bring to your work every day—and even prouder to call you mine.',
-      signOff: 'So proud of you',
+      signOff: 'Your forever cheerleader ⚓',
       hotspot: {
         xPercent: 86.2,
         yPercent: 53.5,
@@ -216,7 +216,7 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       photoUrl: dummyDolphinPhoto,
       photoAlt: 'Wild dolphin gliding beside shimmering blue ocean waves',
       message:
-        'Sailors say dolphins swimming beside the bow bring good luck and joy to the voyage.\n\nYou bring that same effortless smile into my life—turning ordinary days into my favorite adventures.',
+        'Just like waves playfully chase each other across the ocean, some of life-s best moments happen without any plans.\n\n sabse badiya time of our life will always be those small nameless ,uncaptured ,playful moments we spend laughing with each other .',
       signOff: 'Here is to endless smiles',
       hotspot: {
         xPercent: 64.0,
@@ -236,8 +236,8 @@ export const BIRTHDAY_CONFIG: BirthdaySiteConfig = {
       photoUrl: dummyBottlePhoto,
       photoAlt: 'Vintage glass bottle with rolled handwritten parchment on moonlit sand',
       message:
-        'If I could send a letter across every wave to reach you tonight, it would carry one simple wish: that this birthday brings you as much happiness, peace, and love as you give me every single day.\n\nHappy Birthday, Pati ji!',
-      signOff: 'Yours across every ocean',
+        'If I could send one wish across the ocean tonight, it would be :that this birthday brings you as much happiness, support, and love as you give me every single day.\n\nHappy Birthday, Pati ji!',
+      signOff: 'Always in your corner ❤️',
       hotspot: {
         xPercent: 30.2,
         yPercent: 78.2,
