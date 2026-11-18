@@ -20,12 +20,12 @@
 
 import seascapeBackdrop from '../assets/images/seascape_night_backdrop_1794999026980.jpg';
 import seascapeMobileBackdrop from '../assets/images/seascape_mobile_portrait_1795003117994.jpg';
-import dummyBottlePhoto from '../assets/images/Bottle.jpg';
-import dummyCloudsPhoto from '../assets/images/cloud.jpg';
+import dummyBottlePhoto from '../assets/images/Bottle.JPG';
+import dummyCloudsPhoto from '../assets/images/cloud.JPG';
 import dummyDolphinPhoto from '../assets/images/Dolphin.jpg';
 import dummyMoonPhoto from '../assets/images/Moon.jpg';
 import dummyShipPhoto from '../assets/images/Ship.jpeg';
-import dummyStarPhoto from '../assets/images/star.jpg';
+import dummyStarPhoto from '../assets/images/star.JPG';
 
 export type MemoryId =
   | 'moon'
